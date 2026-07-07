@@ -19,6 +19,7 @@ interface Project {
   alt: string;
   title: string;
   desc: string;
+  url?: string;
 }
 
 const projects: Project[] = [
@@ -48,7 +49,8 @@ const projects: Project[] = [
     src: "/project posters/d.png", 
     alt: "Poster D", 
     title: "Sandhya",
-    desc: "A clinically-informed wisdom companion blending psychology and philosophy."
+    desc: "A clinically-informed wisdom companion blending psychology and philosophy.",
+    url: "https://sandhya-seven.vercel.app/"
   },
   { 
     id: "e", 
@@ -271,9 +273,14 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
                       setActiveIndex(index);
                       setTappedIndex(null);
                     } else {
-                      // Tap active card to toggle overlay reveal
-                      e.stopPropagation();
-                      setTappedIndex((prev) => (prev === index ? null : index));
+                      if (project.url) {
+                        e.stopPropagation();
+                        window.open(project.url, "_blank", "noopener,noreferrer");
+                      } else {
+                        // Tap active card to toggle overlay reveal
+                        e.stopPropagation();
+                        setTappedIndex((prev) => (prev === index ? null : index));
+                      }
                     }
                   }}
                   onMouseEnter={() => setHoveredIndex(index)}
@@ -283,7 +290,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
                   tabIndex={0}
                   className={`border border-black/[0.12] rounded-[32px] overflow-hidden relative shadow-[0_8px_30px_rgba(0,0,0,0.02)] select-none transition-shadow duration-300 outline-none ${
                     offset === 0 
-                      ? "ring-1 ring-black/5" 
+                      ? `ring-1 ring-black/5 ${project.url ? "cursor-pointer" : ""}` 
                       : "cursor-pointer"
                   }`}
                 >
