@@ -6,6 +6,7 @@ interface CardFrontProps {
 }
 
 export default function CardFront({ isVisible }: CardFrontProps) {
+  const xTextOffset = 43;
   const yTextOffset = -45;
   const xOffset = -200;
   const yOffset = -150;
@@ -26,7 +27,7 @@ export default function CardFront({ isVisible }: CardFrontProps) {
 
         {/* Top Right Serif List */}
         <div 
-          style={{ transform: `translateY(${yTextOffset}px)` }}
+          style={{ transform: `translate(${xTextOffset}px, ${yTextOffset}px)` }}
           className="text-right font-serif text-xl md:text-2xl lg:text-3xl text-black/90 leading-[1.2] whitespace-pre-line tracking-tight"
         >
           Code w/{"\n"}
