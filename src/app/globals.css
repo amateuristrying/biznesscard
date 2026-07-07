@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-beige: #D8D1C1;
+  --font-sans: "Inter", "SF Pro Display", "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --background: #D8D1C1;
+  --foreground: #000000;
+}
+
+/* Custom Utilities */
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+.font-pixel {
+  font-family: 'VT323', monospace;
+}
+
+.font-mono-desc {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Base resets */
+html, body {
+  background-color: #D8D1C1;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  /* Hide scrollbar for a seamless, app-like experience */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
+}
