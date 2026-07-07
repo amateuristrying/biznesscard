@@ -241,7 +241,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
               const opacity = absOffset === 0 ? 1 : absOffset === 1 ? 0.2 : 0.05;
               const zIndex = 10 - absOffset;
 
-              const isRevealed = hoveredIndex === index || tappedIndex === index;
+              const isRevealed = offset === 0 && (hoveredIndex === index || tappedIndex === index);
 
               return (
                 <motion.div
