@@ -181,7 +181,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
 
   return (
     <div 
-      className="absolute inset-0 w-full h-full bg-[#D8D1C1] border-2 border-black flex flex-col justify-between p-10 md:p-20 select-none backface-hidden z-10"
+      className="absolute inset-0 w-full h-full bg-[#D8D1C1] border-2 border-black flex flex-col justify-between p-10 md:p-20 backface-hidden z-10"
       style={{ transform: "rotateY(180deg)" }}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}

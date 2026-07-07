@@ -86,7 +86,7 @@ export default function CorporateCard() {
   return (
     // Viewport-locked container (no actual browser scrollbar needed)
     <div 
-      className="relative w-screen h-screen bg-[#DAD1BF] overflow-hidden flex items-center justify-center select-none cursor-pointer"
+      className="relative w-screen h-screen bg-[#DAD1BF] overflow-hidden flex items-center justify-center cursor-pointer"
       onClick={handleToggleFlip}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}

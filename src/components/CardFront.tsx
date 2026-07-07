@@ -6,22 +6,29 @@ interface CardFrontProps {
 }
 
 export default function CardFront({ isVisible }: CardFrontProps) {
+  const yTextOffset = -45;
   const xOffset = -200;
   const yOffset = -150;
   const scale = 2.70;
 
   return (
-    <div className="absolute inset-0 w-full h-full bg-[#DAD1BF] border-2 border-black flex flex-col justify-between p-10 md:p-20 select-none backface-hidden z-10">
+    <div className="absolute inset-0 w-full h-full bg-[#DAD1BF] border-2 border-black flex flex-col justify-between p-10 md:p-20 backface-hidden z-10">
       {/* Top Section */}
       <div className="flex justify-between items-start w-full">
         {/* Top Left Title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-black leading-[0.9] whitespace-pre-line">
+        <h1 
+          style={{ transform: `translateY(${yTextOffset}px)` }}
+          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-black leading-[0.9] whitespace-pre-line"
+        >
           Vibe coding{"\n"}
           in prod
         </h1>
 
         {/* Top Right Serif List */}
-        <div className="text-right font-serif text-xl md:text-2xl lg:text-3xl text-black/90 leading-[1.2] whitespace-pre-line tracking-tight">
+        <div 
+          style={{ transform: `translateY(${yTextOffset}px)` }}
+          className="text-right font-serif text-xl md:text-2xl lg:text-3xl text-black/90 leading-[1.2] whitespace-pre-line tracking-tight"
+        >
           Code w/{"\n"}
           Antigravity{"\n"}
           Claude{"\n"}
