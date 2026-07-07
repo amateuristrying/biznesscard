@@ -72,6 +72,7 @@ interface CardBackProps {
 }
 
 export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
+  const socialsYOffset = 51;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -350,7 +351,10 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
       </div>
 
       {/* Bottom Section */}
-      <div className="flex justify-center items-end w-full mt-auto relative">
+      <div 
+        style={{ transform: `translateY(${socialsYOffset}px)` }}
+        className="flex justify-center items-end w-full mt-auto relative"
+      >
         {/* Centered Social Outline Icons (GSAP Animated Pill Navigation) */}
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-20">
           <ProjectSocialBar onOpenCV={onOpenCV} />
