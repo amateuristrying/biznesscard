@@ -1,9 +1,15 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 
-export default function CardFront() {
+interface CardFrontProps {
+  isVisible: boolean;
+}
+
+export default function CardFront({ isVisible }: CardFrontProps) {
+  const xOffset = -200;
+  const yOffset = -150;
+  const scale = 2.70;
+
   return (
     <div className="absolute inset-0 w-full h-full bg-[#DAD1BF] border-2 border-black flex flex-col justify-between p-10 md:p-20 select-none backface-hidden z-10">
       {/* Top Section */}
@@ -51,6 +57,25 @@ export default function CardFront() {
               at Home
             </div>
           </div>
+        </div>
+
+        {/* Bottom Right Lanyard ID Card */}
+        <div 
+          className="relative w-[180px] h-[180px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px] flex-shrink-0 overflow-visible"
+          style={{ visibility: isVisible ? "visible" : "hidden" }}
+        >
+          <Image
+            src="/idcard.png"
+            alt="Lanyard ID Card"
+            fill
+            sizes="(max-width: 768px) 180px, (max-width: 1024px) 320px, 380px"
+            priority
+            className="object-contain select-none pointer-events-none transition-transform duration-75"
+            style={{
+              transform: `translate(${xOffset}px, ${yOffset}px) scale(${scale})`,
+            }}
+            unoptimized
+          />
         </div>
       </div>
     </div>

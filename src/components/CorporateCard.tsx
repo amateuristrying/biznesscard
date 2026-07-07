@@ -100,7 +100,7 @@ export default function CorporateCard() {
         animate={{ rotateY: rotationY }}
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }} // smooth cubic-bezier transition
       >
-        <CardFront />
+        <CardFront isVisible={!isBack} />
         <CardBack isVisible={isBack} onOpenCV={() => setIsCVOpen(true)} />
       </motion.div>
 
