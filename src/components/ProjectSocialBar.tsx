@@ -196,8 +196,8 @@ export default function ProjectSocialBar({ onOpenCV }: ProjectSocialBarProps) {
   const buttons = [
     { id: 0, label: "CV", icon: <CVIcon className="w-5 h-5" />, href: "#", isCV: true },
     { id: 2, label: "LinkedIn", icon: <LinkedinIcon className="w-5 h-5" />, href: "https://linkedin.com/in/abhiroop-hiremath-45a57928a" },
-    { id: 3, label: "X", icon: <TwitterIcon className="w-5 h-5" />, href: "https://x.com" },
-    { id: 4, label: "GitHub", icon: <GithubIcon className="w-5 h-5" />, href: "https://github.com" },
+    { id: 3, label: "X", icon: <TwitterIcon className="w-5 h-5" />, href: "https://x.com/AbhidooP" },
+    { id: 4, label: "GitHub", icon: <GithubIcon className="w-5 h-5" />, href: "https://github.com/amateuristrying" },
   ];
 
   return (
