@@ -79,7 +79,6 @@ interface ThemeDockProps {
 }
 
 export default function ThemeDock({ activeTheme, onChangeTheme }: ThemeDockProps) {
-  const mouseX = useMotionValue(Infinity);
   const [screenType, setScreenType] = useState<
     "desktop" | "laptop" | "tablet" | "mobile" | "small"
   >("desktop");
@@ -110,11 +109,8 @@ export default function ThemeDock({ activeTheme, onChangeTheme }: ThemeDockProps
     <div
       className="flex items-center select-none"
       style={{
-        gap: mouseX.get() === Infinity ? config.gap : config.hoverGap,
-        transition: "gap 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
+        gap: config.gap,
       }}
-      onMouseMove={(e) => mouseX.set(e.clientX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
     >
       <PaperGrainFilter />
       {themeConfigs.map((theme) => (
@@ -125,7 +121,6 @@ export default function ThemeDock({ activeTheme, onChangeTheme }: ThemeDockProps
           active={activeTheme === theme.id}
           colors={theme.colors}
           onClick={() => onChangeTheme(theme.id)}
-          mouseX={mouseX}
           config={config}
         />
       ))}
@@ -139,7 +134,6 @@ interface ThemeBallProps {
   active: boolean;
   colors: ThemeColors;
   onClick: () => void;
-  mouseX: MotionValue<number>;
   config: { base: number; hover: number; max: number };
 }
 
@@ -149,7 +143,6 @@ function ThemeBall({
   active,
   colors,
   onClick,
-  mouseX,
   config,
 }: ThemeBallProps) {
   const ref = useRef<HTMLButtonElement>(null);
@@ -188,25 +181,6 @@ function ThemeBall({
     return () => cancelAnimationFrame(frameId);
   }, [isHovered]);
 
-  // macOS Dock magnification logic
-  const distance = useTransform(mouseX, (val) => {
-    if (val === Infinity) return Infinity;
-    const bounds = ref.current?.getBoundingClientRect();
-    if (!bounds) return Infinity;
-    const elX = bounds.left + bounds.width / 2;
-    return val - elX;
-  });
-
-  const rawSize = useTransform(distance, (dist) => {
-    if (dist === Infinity) return config.base;
-    const d = Math.abs(dist);
-    if (d > 100) return config.base;
-    // Spring-like interpolation from base to max size
-    return config.max - (d / 100) * (config.max - config.base);
-  });
-
-  const size = useSpring(rawSize, { stiffness: 200, damping: 25 });
-
   const handleMouseMove = (e: React.MouseEvent) => {
     const bounds = ref.current?.getBoundingClientRect();
     if (!bounds) return;
@@ -236,6 +210,8 @@ function ThemeBall({
     }
   };
 
+  const currentSize = isHovered ? config.hover : config.base;
+
   return (
     <div className="relative flex flex-col items-center">
       <AnimatePresence>
@@ -263,12 +239,13 @@ function ThemeBall({
         aria-pressed={active}
         tabIndex={0}
         className="relative outline-none border-none bg-transparent cursor-pointer flex items-center justify-center p-0"
-        style={{
-          width: size,
-          height: size,
+        animate={{
+          width: currentSize,
+          height: currentSize,
           y: isHovered ? -10 : idleY,
           rotate: isHovered ? 5 : idleRotate,
         }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
         whileTap={{ scale: 0.93 }}
       >
         <BallArtwork
@@ -282,7 +259,7 @@ function ThemeBall({
         />
 
         {/* Ambient & Contact Shadow */}
-        <BallShadow isHovered={isHovered} size={size} colors={colors} />
+        <BallShadow isHovered={isHovered} size={currentSize} colors={colors} />
 
         {/* Active Ring & Hand Drawn Underline */}
         <AnimatePresence>
@@ -455,13 +432,13 @@ const BallArtwork = React.memo(function BallArtwork({
 
 interface BallShadowProps {
   isHovered: boolean;
-  size: MotionValue<number>;
+  size: number;
   colors: ThemeColors;
 }
 
 function BallShadow({ isHovered, size, colors }: BallShadowProps) {
   // Smoothly scaling shadow offset & scale on hover
-  const shadowScale = useTransform(size, (s) => (s / 44) * (isHovered ? 1.2 : 1));
+  const shadowScale = (size / 44) * (isHovered ? 1.2 : 1);
   const shadowOpacity = isHovered ? 0.35 : 0.25;
 
   return (
