@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&family=JetBrains+Mono:wght@400;700&family=Saira+Stencil+One&family=Teko:wght@500;700&display=swap');
 @import "tailwindcss";
+
 
 @theme {
   --color-beige: #D8D1C1;
@@ -29,6 +30,15 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+.font-stencil {
+  font-family: 'Saira Stencil One', sans-serif;
+}
+
+.font-industrial {
+  font-family: 'Teko', sans-serif;
+}
+
+
 /* Base resets */
 html, body {
   background-color: #D8D1C1;
@@ -45,4 +55,50 @@ html, body {
 
 html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none;
+}
+
+/* Radial wave animation for balls hover */
+@keyframes radial-wave-1 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes radial-wave-2 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(0, 0, 0, 0);
+  }
+}
+
+.ball-hover-zone {
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 2;
+}
+
+.ball-hover-zone::before,
+.ball-hover-zone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ball-hover-zone:hover::before {
+  animation: radial-wave-1 0.9s ease-out infinite;
+  opacity: 1;
+}
+
+.ball-hover-zone:hover::after {
+  animation: radial-wave-2 0.9s ease-out 0.25s infinite;
+  opacity: 1;
 }

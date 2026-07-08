@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CardFront from "./CardFront";
 import CardBack from "./CardBack";
+import { themes } from "./ThemeDock";
+import FaultyTerminal from "./FaultyTerminal";
+import gsap from "gsap";
 
 export default function CorporateCard() {
   const [rotationY, setRotationY] = useState(0);
@@ -11,6 +14,31 @@ export default function CorporateCard() {
   const touchStartY = useRef<number | null>(null);
   const lastFlipTime = useRef<number>(0);
   const COOLDOWN = 800; // ms, matches transition duration
+
+  const [activeTheme, setActiveTheme] = useState<"classic" | "cyber">("classic");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const target = themes[activeTheme];
+
+    // GSAP color interpolation for CSS custom properties
+    gsap.to(container, {
+      "--theme-bg": activeTheme === "cyber" ? "#050505" : target.bg,
+      "--theme-primary": target.primary,
+      "--theme-secondary": target.secondary,
+      "--theme-shadow": target.shadow,
+      "--theme-outline": target.outline,
+      "--theme-text": target.text,
+      "--theme-border": activeTheme === "cyber" ? "rgba(255, 212, 0, 0.18)" : target.border,
+      "--theme-card-bg": activeTheme === "cyber" ? "#1a1a1a" : "#DAD1BF",
+      duration: 1.0,
+      ease: "power2.out"
+    });
+  }, [activeTheme]);
+
 
   // Click handler to toggle flip, avoiding triggers when clicking links or buttons or when CV is open
   const handleToggleFlip = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -86,22 +114,74 @@ export default function CorporateCard() {
   return (
     // Viewport-locked container (no actual browser scrollbar needed)
     <div 
-      className="relative w-screen h-screen bg-[#DAD1BF] overflow-hidden flex items-center justify-center cursor-pointer"
+      ref={containerRef}
+      className="relative w-screen h-screen bg-[var(--theme-bg)] text-[var(--theme-text)] overflow-hidden flex items-center justify-center cursor-pointer"
       onClick={handleToggleFlip}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      style={{ perspective: "2500px" }}
+      style={{ perspective: "2500px", ...(themes[activeTheme] as React.CSSProperties) }}
     >
+      {/* Background theme elements with AnimatePresence */}
+      <AnimatePresence>
+        {activeTheme === "cyber" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
+            className="absolute inset-0 z-0 pointer-events-none"
+          >
+            {/* Layer 1: FaultyTerminal Animation */}
+            <div className="absolute inset-0">
+              <FaultyTerminal
+                scale={1.6}
+                gridMul={[2, 1]}
+                digitSize={1.25}
+                timeScale={1}
+                pause={false}
+                scanlineIntensity={0.7}
+                glitchAmount={0.6}
+                flickerAmount={0.4}
+                noiseAmp={0.5}
+                chromaticAberration={0}
+                dither={0}
+                curvature={0}
+                tint="#FFD400"
+                mouseReact={true}
+                mouseStrength={0.25}
+                pageLoadAnimation={false}
+                brightness={0.18}
+              />
+            </div>
+            {/* Layer 2: Black Translucent Overlay */}
+            <div 
+              className="absolute inset-0 z-[1]"
+              style={{
+                background: "rgba(0, 0, 0, 0.82)",
+                backdropFilter: "blur(1px)",
+                WebkitBackdropFilter: "blur(1px)"
+              }}
+            />
+            {/* Layer 3: Center ambient glow to pop the card */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,212,0,0.05)_0%,transparent_60%)] z-[2]" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* The 3D Card wrapper that rotates based on state */}
       <motion.div
-        className="relative w-full h-full transform-3d"
+        className="relative w-full h-full transform-3d z-10"
         animate={{ rotateY: rotationY }}
         transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }} // smooth cubic-bezier transition
       >
-        <CardFront isVisible={!isBack} />
-        <CardBack isVisible={isBack} onOpenCV={() => setIsCVOpen(true)} />
+        <CardFront 
+          isVisible={!isBack} 
+          activeTheme={activeTheme} 
+          onChangeTheme={setActiveTheme} 
+        />
+        <CardBack isVisible={isBack} onOpenCV={() => setIsCVOpen(true)} activeTheme={activeTheme} />
       </motion.div>
 
       {/* CV Modal dialog overlay */}
@@ -130,7 +210,9 @@ export default function CorporateCard() {
                 <div className="flex items-center gap-3">
                   {/* Connect Button (Paper Plane) */}
                   <a 
-                    href="mailto:abhiroophiremath@gmail.com" 
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=abhiroophiremath@gmail.com" 
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 px-4 py-2 border border-black rounded-full hover:bg-black hover:text-[#D8D1C1] transition-all duration-300 text-black font-mono text-xs md:text-sm font-semibold cursor-pointer z-10"
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">

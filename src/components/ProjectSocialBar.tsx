@@ -155,28 +155,28 @@ function SocialButton({
       onClick={onClick}
     >
       {/* Base Layer: Black icon centered */}
-      <div className="absolute inset-0 flex items-center justify-center w-11 h-11 text-black/70 pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center w-11 h-11 text-[var(--theme-text)] opacity-70 pointer-events-none transition-all duration-500">
         {icon}
       </div>
 
-      {/* Pill Layer: Expanding Black Pill with Warm Beige Content */}
+      {/* Pill Layer: Expanding Pill with Theme Color Content */}
       <div
         ref={pillRef}
-        className="absolute inset-0 bg-black rounded-full flex items-center px-3 gap-2 h-11 overflow-hidden pointer-events-none select-none"
+        className="absolute inset-0 bg-[var(--theme-primary)] rounded-full flex items-center px-3 gap-2 h-11 overflow-hidden pointer-events-none select-none transition-colors duration-500"
         style={{
           width: "100%",
           clipPath: "circle(0px at 22px 44px)",
         }}
       >
-        {/* Warm Beige Centered Icon */}
-        <div className="flex items-center justify-center w-5 h-5 text-[#D8D1C1] flex-shrink-0 ml-[1px]">
+        {/* Theme Centered Icon */}
+        <div className="flex items-center justify-center w-5 h-5 text-[var(--theme-card-bg,var(--theme-bg))] flex-shrink-0 ml-[1px] transition-colors duration-500">
           {icon}
         </div>
 
-        {/* Warm Beige Sliding Text Label */}
+        {/* Theme Sliding Text Label */}
         <span
           ref={labelRef}
-          className="font-sans font-medium text-sm text-[#D8D1C1] tracking-tight whitespace-nowrap block"
+          className="font-sans font-medium text-sm text-[var(--theme-card-bg,var(--theme-bg))] tracking-tight whitespace-nowrap block transition-colors duration-500"
           style={{ transform: "translateY(15px)", opacity: 0 }}
         >
           {label}

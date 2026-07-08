@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import ProjectSocialBar from "./ProjectSocialBar";
+import DecryptedText from "./DecryptedText";
 
 // Configurable socials object
 const socials = {
@@ -71,9 +72,10 @@ const projects: Project[] = [
 interface CardBackProps {
   isVisible: boolean;
   onOpenCV: () => void;
+  activeTheme: "classic" | "cyber";
 }
 
-export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
+export default function CardBack({ isVisible, onOpenCV, activeTheme }: CardBackProps) {
   const socialsYOffset = 51;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -184,7 +186,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
 
   return (
     <div 
-      className="absolute inset-0 w-full h-full bg-[#D8D1C1] border-2 border-black flex flex-col justify-between p-10 md:p-20 backface-hidden z-10"
+      className="absolute inset-0 w-full h-full bg-[var(--theme-card-bg,var(--theme-bg))] border-2 border-[var(--theme-border)] flex flex-col justify-between p-10 md:p-20 backface-hidden z-10 transition-colors duration-[1000ms]"
       style={{ transform: "rotateY(180deg)" }}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
@@ -194,8 +196,16 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
     >
       {/* Center Section: Projects Area */}
       <div className="flex flex-col items-center justify-center w-full my-auto py-4 relative transform-3d">
-        <h3 className="text-4xl md:text-6xl font-bold tracking-tight text-black mb-8 md:mb-12 text-center">
-          Projects
+        <h3 className="text-4xl md:text-6xl font-bold tracking-tight text-[var(--theme-text)] mb-8 md:mb-12 text-center">
+          <DecryptedText
+            key={activeTheme}
+            text="Projects"
+            animateOn="view"
+            speed={100}
+            sequential={true}
+            revealDirection="start"
+            useOriginalCharsOnly={false}
+          />
         </h3>
 
         {/* Outer container with arrows and sliding track */}
@@ -204,7 +214,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
           {/* Navigation Arrow Left */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 md:left-4 z-30 w-12 h-12 flex items-center justify-center rounded-full border border-black/10 hover:border-black/30 bg-[#D8D1C1]/40 backdrop-blur-sm hover:bg-black/5 transition-all duration-300 group cursor-pointer"
+            className="absolute left-0 md:left-4 z-30 w-12 h-12 flex items-center justify-center rounded-full border border-[var(--theme-border)]/10 hover:border-[var(--theme-border)]/30 bg-[var(--theme-card-bg,var(--theme-bg))]/40 backdrop-blur-sm hover:bg-[var(--theme-border)]/5 transition-all duration-300 group cursor-pointer"
             aria-label="Previous Project"
           >
             <svg
@@ -212,7 +222,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
-              className="w-6 h-6 text-black/60 group-hover:text-black group-hover:-translate-x-0.5 transition-all"
+              className="w-6 h-6 text-[var(--theme-text)]/60 group-hover:text-[var(--theme-text)] group-hover:-translate-x-0.5 transition-all duration-300"
             >
               <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -320,16 +330,32 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
                     {/* Content Area */}
                     <div className="flex flex-col items-center justify-center w-full h-full relative z-20">
                       {/* Product Name */}
-                      <h4 className="font-pixel text-4xl md:text-5xl text-black tracking-wider uppercase">
-                        {project.title}
+                      <h4 className="font-pixel text-4xl md:text-5xl text-[var(--theme-text)] tracking-wider uppercase">
+                        <DecryptedText
+                          key={activeTheme + "-" + project.title}
+                          text={project.title}
+                          animateOn="view"
+                          speed={100}
+                          sequential={true}
+                          revealDirection="start"
+                          useOriginalCharsOnly={false}
+                        />
                       </h4>
 
                       {/* Small Divider */}
-                      <div className="w-8 h-[1px] bg-black/40 my-4" />
+                      <div className="w-8 h-[1px] bg-[var(--theme-text)]/40 my-4" />
 
                       {/* Monospace Description */}
-                      <p className="font-mono-desc text-[11px] md:text-xs text-black/85 leading-relaxed max-w-[90%] font-medium">
-                        {project.desc}
+                      <p className="font-mono-desc text-[11px] md:text-xs text-[var(--theme-text)] opacity-85 leading-relaxed max-w-[90%] font-medium">
+                        <DecryptedText
+                          key={activeTheme + "-" + project.id}
+                          text={project.desc}
+                          animateOn="view"
+                          speed={100}
+                          sequential={true}
+                          revealDirection="start"
+                          useOriginalCharsOnly={false}
+                        />
                       </p>
                     </div>
                   </div>
@@ -341,7 +367,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
           {/* Navigation Arrow Right */}
           <button
             onClick={handleNext}
-            className="absolute right-0 md:right-4 z-30 w-12 h-12 flex items-center justify-center rounded-full border border-black/10 hover:border-black/30 bg-[#D8D1C1]/40 backdrop-blur-sm hover:bg-black/5 transition-all duration-300 group cursor-pointer"
+            className="absolute right-0 md:right-4 z-30 w-12 h-12 flex items-center justify-center rounded-full border border-[var(--theme-border)]/10 hover:border-[var(--theme-border)]/30 bg-[var(--theme-card-bg,var(--theme-bg))]/40 backdrop-blur-sm hover:bg-[var(--theme-border)]/5 transition-all duration-300 group cursor-pointer"
             aria-label="Next Project"
           >
             <svg
@@ -349,7 +375,7 @@ export default function CardBack({ isVisible, onOpenCV }: CardBackProps) {
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
-              className="w-6 h-6 text-black/60 group-hover:text-black group-hover:translate-x-0.5 transition-all"
+              className="w-6 h-6 text-[var(--theme-text)]/60 group-hover:text-[var(--theme-text)] group-hover:translate-x-0.5 transition-all duration-300"
             >
               <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
