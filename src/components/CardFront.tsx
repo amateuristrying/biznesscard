@@ -61,7 +61,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
         >
           <DecryptedText
             key={activeTheme}
-            text={`Code w/\nAntigravity\nClaude\nCodex\nVercel`}
+            text={`Code w/\nAntigravity\nClaude\nCodex\nGithub Copilot\nCursor\nWindsurf`}
             animateOn="view"
             speed={100}
             sequential={true}

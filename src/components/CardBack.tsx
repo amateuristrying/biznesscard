@@ -24,12 +24,21 @@ interface Project {
 }
 
 const projects: Project[] = [
-  { 
-    id: "a", 
+  {
+    id: "g",
+    src: "/project posters/g.png",
+    alt: "Poster G",
+    title: "Sofign",
+    desc: "Bold rebranding and design consultancy, powered by Design Master v2, an in-house tool built by the Sofign team itself.",
+    url: "https://sofign.pages.dev/"
+  },
+  {
+    id: "a",
     src: "/project posters/a.png", 
     alt: "Poster A", 
     title: "99VCA",
-    desc: "Building calm, open software that empowers people instead of overwhelming them."
+    desc: "Building calm, open software that empowers people instead of overwhelming them.",
+    url: "https://vca-labs.vercel.app/"
   },
   { 
     id: "b", 
@@ -43,7 +52,8 @@ const projects: Project[] = [
     src: "/project posters/c.png", 
     alt: "Poster C", 
     title: "Internal Tracking Tools",
-    desc: "Tailored, reliable monitoring tools built for internal logistics and asset pipelines."
+    desc: "Tailored, reliable monitoring tools built for internal logistics and asset pipelines.",
+    url: "https://www.uniprocenergies.com/services/unifleet"
   },
   { 
     id: "d", 
@@ -65,7 +75,8 @@ const projects: Project[] = [
     src: "/project posters/f.png", 
     alt: "Poster F", 
     title: "Raayo",
-    desc: "An architectural, high-end platform built for high-performance vibe coding in prod."
+    desc: "An architectural, high-end platform built for high-performance vibe coding in prod.",
+    url: "https://raayo.pages.dev/"
   }
 ];
 
