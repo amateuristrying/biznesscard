@@ -74,7 +74,10 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
       {/* Bottom Section */}
       <div className="flex justify-between items-end w-full">
         {/* Bottom Left Profile - Matches First Theme layout, font, size exactly but colorized and scrambled sequentially */}
-        <div className="flex items-center gap-4 md:gap-5">
+        <div 
+          style={{ transform: `translateY(${yTextOffset}px)` }}
+          className="flex items-center gap-4 md:gap-5"
+        >
           {/* Avatar Image */}
           <div 
             className={`w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden flex-shrink-0 relative transition-all duration-[1000ms] ${
