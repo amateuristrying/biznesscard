@@ -47,7 +47,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
             key={activeTheme}
             text={`Vibe coding\nin prod`}
             animateOn="view"
-            speed={100}
+            speed={50}
             sequential={true}
             revealDirection="start"
             useOriginalCharsOnly={false}
@@ -63,7 +63,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
             key={activeTheme}
             text={`Code w/\nAntigravity\nClaude\nCodex\nGithub Copilot\nCursor\nWindsurf`}
             animateOn="view"
-            speed={100}
+            speed={50}
             sequential={true}
             revealDirection="start"
             useOriginalCharsOnly={false}
@@ -104,7 +104,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
                 key={activeTheme}
                 text="Abhiroop Hiremath"
                 animateOn="view"
-                speed={100}
+                speed={50}
                 sequential={true}
                 revealDirection="start"
                 useOriginalCharsOnly={false}
@@ -115,7 +115,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
                 key={activeTheme}
                 text="Software Developer"
                 animateOn="view"
-                speed={100}
+                speed={50}
                 sequential={true}
                 revealDirection="start"
                 useOriginalCharsOnly={false}
@@ -126,7 +126,7 @@ export default function CardFront({ isVisible, activeTheme, onChangeTheme }: Car
                 key={activeTheme}
                 text="at Home"
                 animateOn="view"
-                speed={100}
+                speed={50}
                 sequential={true}
                 revealDirection="start"
                 useOriginalCharsOnly={false}

@@ -212,7 +212,7 @@ export default function CardBack({ isVisible, onOpenCV, activeTheme }: CardBackP
             key={activeTheme}
             text="Projects"
             animateOn="view"
-            speed={100}
+            speed={50}
             sequential={true}
             revealDirection="start"
             useOriginalCharsOnly={false}
@@ -346,7 +346,7 @@ export default function CardBack({ isVisible, onOpenCV, activeTheme }: CardBackP
                           key={activeTheme + "-" + project.title}
                           text={project.title}
                           animateOn="view"
-                          speed={100}
+                          speed={50}
                           sequential={true}
                           revealDirection="start"
                           useOriginalCharsOnly={false}
@@ -362,7 +362,7 @@ export default function CardBack({ isVisible, onOpenCV, activeTheme }: CardBackP
                           key={activeTheme + "-" + project.id}
                           text={project.desc}
                           animateOn="view"
-                          speed={100}
+                          speed={50}
                           sequential={true}
                           revealDirection="start"
                           useOriginalCharsOnly={false}
