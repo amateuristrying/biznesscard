@@ -30,7 +30,7 @@ const projects: Project[] = [
     alt: "Poster G",
     title: "Sofign",
     desc: "Bold rebranding and design consultancy, powered by Design Master v2, an in-house tool built by the Sofign team itself.",
-    url: "https://sofign.pages.dev/"
+    url: "https://sofign.com/"
   },
   {
     id: "a",

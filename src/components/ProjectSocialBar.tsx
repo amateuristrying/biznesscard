@@ -203,24 +203,31 @@ export default function ProjectSocialBar({ onOpenCV }: ProjectSocialBarProps) {
   return (
     <div className="flex items-center justify-center gap-5 md:gap-6 z-20">
       {buttons.map((btn) => (
-        <SocialButton
-          key={btn.id}
-          icon={btn.icon}
-          label={btn.label}
-          href={btn.href}
-          isHovered={hoveredIndex === btn.id}
-          onHoverEnter={() => setHoveredIndex(btn.id)}
-          onHoverLeave={() => setHoveredIndex((prev) => (prev === btn.id ? null : prev))}
-          onClick={
-            btn.isCV
-              ? (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onOpenCV();
-                }
-              : (e) => e.stopPropagation()
-          }
-        />
+        <div key={btn.id} className="flex flex-col items-start gap-1">
+          <SocialButton
+            icon={btn.icon}
+            label={btn.label}
+            href={btn.href}
+            isHovered={hoveredIndex === btn.id}
+            onHoverEnter={() => setHoveredIndex(btn.id)}
+            onHoverLeave={() => setHoveredIndex((prev) => (prev === btn.id ? null : prev))}
+            onClick={
+              btn.isCV
+                ? (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onOpenCV();
+                  }
+                : (e) => e.stopPropagation()
+            }
+          />
+          <span
+            aria-hidden="true"
+            className="w-11 text-center font-sans text-[10px] leading-none tracking-tight whitespace-nowrap text-[var(--theme-text)] opacity-60 pointer-events-none select-none transition-colors duration-500"
+          >
+            {btn.label}
+          </span>
+        </div>
       ))}
     </div>
   );
