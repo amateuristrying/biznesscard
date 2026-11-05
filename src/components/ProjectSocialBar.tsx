@@ -51,6 +51,10 @@ interface SocialButtonProps {
   onClick?: (e: React.MouseEvent) => void;
 }
 
+const SIZE = 44;
+const HIDDEN_CLIP = `circle(0px at ${SIZE / 2}px ${SIZE}px)`;
+const SHOWN_CLIP = `circle(150% at ${SIZE / 2}px ${SIZE / 2}px)`;
+
 function SocialButton({
   icon,
   label,
@@ -60,129 +64,83 @@ function SocialButton({
   onHoverLeave,
   onClick
 }: SocialButtonProps) {
-  const buttonRef = useRef<HTMLAnchorElement>(null);
   const pillRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+  const captionRef = useRef<HTMLSpanElement>(null);
   const isFirstRender = useRef(true);
 
-  const collapsedWidth = 44;
-  const expandedWidth = 44 + label.length * 9.5 + 16;
-
   useEffect(() => {
-    const button = buttonRef.current;
     const pill = pillRef.current;
-    const labelEl = labelRef.current;
-    if (!button || !pill || !labelEl) return;
+    const caption = captionRef.current;
+    if (!pill || !caption) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // Clean up active animations on these elements to prevent overlay/stuck tweens
-    gsap.killTweensOf([button, pill, labelEl]);
+    gsap.killTweensOf([pill, caption]);
 
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      // Setup initial collapsed state instantly on mount
-      gsap.set(button, { width: collapsedWidth });
-      gsap.set(pill, { clipPath: "circle(0px at 22px 44px)", opacity: 0 });
-      gsap.set(labelEl, { y: 15, opacity: 0 });
+      gsap.set(pill, { clipPath: HIDDEN_CLIP, opacity: 0 });
+      gsap.set(caption, { opacity: 0.6, y: 0 });
       return;
     }
 
-    if (isHovered) {
-      if (prefersReducedMotion) {
-        gsap.to(button, { width: expandedWidth, duration: 0 });
-        gsap.to(pill, { clipPath: "circle(150% at 22px 22px)", opacity: 1, duration: 0 });
-        gsap.to(labelEl, { y: 0, opacity: 1, duration: 0 });
-      } else {
-        gsap.to(button, {
-          width: expandedWidth,
-          duration: 0.4,
-          ease: "power3.out"
-        });
-        gsap.to(pill, {
-          clipPath: "circle(150% at 22px 22px)",
-          opacity: 1,
-          duration: 0.4,
-          ease: "power3.out"
-        });
-        gsap.to(labelEl, {
-          y: 0,
-          opacity: 1,
-          duration: 0.4,
-          ease: "power3.out"
-        });
-      }
-    } else {
-      if (prefersReducedMotion) {
-        gsap.to(button, { width: collapsedWidth, duration: 0 });
-        gsap.to(pill, { clipPath: "circle(0px at 22px 44px)", opacity: 0, duration: 0 });
-        gsap.to(labelEl, { y: 15, opacity: 0, duration: 0 });
-      } else {
-        gsap.to(button, {
-          width: collapsedWidth,
-          duration: 0.28,
-          ease: "power2.inOut"
-        });
-        gsap.to(pill, {
-          clipPath: "circle(0px at 22px 44px)",
-          opacity: 0,
-          duration: 0.28,
-          ease: "power2.inOut"
-        });
-        gsap.to(labelEl, {
-          y: 15,
-          opacity: 0,
-          duration: 0.28,
-          ease: "power2.inOut"
-        });
-      }
-    }
-  }, [isHovered, expandedWidth]);
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const duration = prefersReducedMotion ? 0 : isHovered ? 0.4 : 0.28;
+    const ease = isHovered ? "power3.out" : "power2.inOut";
+
+    gsap.to(pill, {
+      clipPath: isHovered ? SHOWN_CLIP : HIDDEN_CLIP,
+      opacity: isHovered ? 1 : 0,
+      duration,
+      ease
+    });
+    gsap.to(caption, {
+      opacity: isHovered ? 1 : 0.6,
+      y: isHovered ? 2 : 0,
+      duration,
+      ease
+    });
+  }, [isHovered]);
 
   return (
-    <a
-      ref={buttonRef}
-      href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      onMouseEnter={onHoverEnter}
-      onMouseLeave={onHoverLeave}
-      onFocus={onHoverEnter}
-      onBlur={onHoverLeave}
-      tabIndex={0}
-      className="relative flex items-center h-11 rounded-full cursor-pointer overflow-hidden outline-none z-20 select-none flex-shrink-0"
-      style={{ width: collapsedWidth }}
-      onClick={onClick}
-    >
-      {/* Base Layer: Black icon centered */}
-      <div className="absolute inset-0 flex items-center justify-center w-11 h-11 text-[var(--theme-text)] opacity-70 pointer-events-none transition-all duration-500">
-        {icon}
-      </div>
-
-      {/* Pill Layer: Expanding Pill with Theme Color Content */}
-      <div
-        ref={pillRef}
-        className="absolute inset-0 bg-[var(--theme-primary)] rounded-full flex items-center px-3 gap-2 h-11 overflow-hidden pointer-events-none select-none transition-colors duration-500"
-        style={{
-          width: "100%",
-          clipPath: "circle(0px at 22px 44px)",
-        }}
+    <div className="flex flex-col items-center gap-1 flex-shrink-0">
+      <a
+        href={href}
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel="noopener noreferrer"
+        aria-label={label}
+        onMouseEnter={onHoverEnter}
+        onMouseLeave={onHoverLeave}
+        onFocus={onHoverEnter}
+        onBlur={onHoverLeave}
+        tabIndex={0}
+        className="relative flex items-center justify-center w-11 h-11 rounded-full cursor-pointer overflow-hidden outline-none z-20 select-none"
+        onClick={onClick}
       >
-        {/* Theme Centered Icon */}
-        <div className="flex items-center justify-center w-5 h-5 text-[var(--theme-card-bg,var(--theme-bg))] flex-shrink-0 ml-[1px] transition-colors duration-500">
+        {/* Base Layer: outline icon */}
+        <div className="absolute inset-0 flex items-center justify-center text-[var(--theme-text)] opacity-70 pointer-events-none transition-all duration-500">
           {icon}
         </div>
 
-        {/* Theme Sliding Text Label */}
-        <span
-          ref={labelRef}
-          className="font-sans font-medium text-sm text-[var(--theme-card-bg,var(--theme-bg))] tracking-tight whitespace-nowrap block transition-colors duration-500"
-          style={{ transform: "translateY(15px)", opacity: 0 }}
+        {/* Reveal Layer: theme-colored circle with inverted icon, centered */}
+        <div
+          ref={pillRef}
+          className="absolute inset-0 bg-[var(--theme-primary)] rounded-full flex items-center justify-center pointer-events-none select-none transition-colors duration-500"
+          style={{ clipPath: HIDDEN_CLIP, opacity: 0 }}
         >
-          {label}
-        </span>
-      </div>
-    </a>
+          <div className="flex items-center justify-center w-5 h-5 text-[var(--theme-card-bg,var(--theme-bg))] transition-colors duration-500">
+            {icon}
+          </div>
+        </div>
+      </a>
+
+      <span
+        ref={captionRef}
+        aria-hidden="true"
+        className="text-center font-sans text-[10px] leading-none tracking-tight whitespace-nowrap text-[var(--theme-text)] pointer-events-none select-none transition-colors duration-500"
+        style={{ opacity: 0.6 }}
+      >
+        {label}
+      </span>
+    </div>
   );
 }
 
@@ -203,31 +161,24 @@ export default function ProjectSocialBar({ onOpenCV }: ProjectSocialBarProps) {
   return (
     <div className="flex items-center justify-center gap-5 md:gap-6 z-20">
       {buttons.map((btn) => (
-        <div key={btn.id} className="flex flex-col items-start gap-1">
-          <SocialButton
-            icon={btn.icon}
-            label={btn.label}
-            href={btn.href}
-            isHovered={hoveredIndex === btn.id}
-            onHoverEnter={() => setHoveredIndex(btn.id)}
-            onHoverLeave={() => setHoveredIndex((prev) => (prev === btn.id ? null : prev))}
-            onClick={
-              btn.isCV
-                ? (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onOpenCV();
-                  }
-                : (e) => e.stopPropagation()
-            }
-          />
-          <span
-            aria-hidden="true"
-            className="w-11 text-center font-sans text-[10px] leading-none tracking-tight whitespace-nowrap text-[var(--theme-text)] opacity-60 pointer-events-none select-none transition-colors duration-500"
-          >
-            {btn.label}
-          </span>
-        </div>
+        <SocialButton
+          key={btn.id}
+          icon={btn.icon}
+          label={btn.label}
+          href={btn.href}
+          isHovered={hoveredIndex === btn.id}
+          onHoverEnter={() => setHoveredIndex(btn.id)}
+          onHoverLeave={() => setHoveredIndex((prev) => (prev === btn.id ? null : prev))}
+          onClick={
+            btn.isCV
+              ? (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onOpenCV();
+                }
+              : (e) => e.stopPropagation()
+          }
+        />
       ))}
     </div>
   );
